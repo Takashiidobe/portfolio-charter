@@ -5,14 +5,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Stock Prices</title>
-  <meta name="description" content="Stock Prices">
+  <title>Portfolio Value</title>
+  <meta name="description" content="Portfolio Value">
 
-  <meta property="og:title" content="Stock Prices">
+  <meta property="og:title" content="Portfolio Value">
 </head>
 
 <body>
-<h1>Portfolio Price</h1>
+<h1>Portfolio Value over Time</h1>
+
+<p>To erase stray input boxes, refresh the page.</p>
+<p>Prices may be inaccurate due to smoothing/missing data. This is not meant to be accurate.</p>
 
 <label for="time">Time Period:</label>
 
@@ -33,7 +36,6 @@
 <input type="button" id="fetchPrices" value="Fetch Prices" />
 
 <div id="portfolio"></div>
-
 
 <canvas id="myChart"></canvas>
 <script src="./chart.min.js"></script>

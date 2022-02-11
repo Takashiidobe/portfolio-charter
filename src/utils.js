@@ -13,27 +13,32 @@ export let dateRanges = {
 };
 
 export async function updateChart(portfolio, time) {
-  let dataTable = {};
+  let values = [];
   let dates = [];
 
   for (const key in portfolio) {
-    if (key == "t") {
+    if (key == "time") {
       continue;
     }
     let data = await fetchData(key, dateRanges[time]);
-    dates = data.chart.result[0].timestamp.map((x) =>
-      dateRanges[time] == "1d"
-        ? new Date(x * 1000).toLocaleTimeString()
-        : new Date(x * 1000).toLocaleDateString()
-    );
+    let timestamps = data.chart.result[0].timestamp.sort();
+    dates = timestamps.map((x) => {
+      if (dateRanges[time] == "1d") {
+        return new Date(x * 1000).toLocaleTimeString();
+      } else if (dateRanges[time] == "5d") {
+        return new Date(x * 1000).toLocaleString();
+      } else {
+        return new Date(x * 1000).toLocaleDateString();
+      }
+    });
 
     const prices = data.chart.result[0].indicators.quote[0].close;
 
     for (let i = 0; i < dates.length; i++) {
-      if (dataTable[dates[i]]) {
-        dataTable[dates[i]] += prices[i] * portfolio[key];
+      if (values.length <= i) {
+        values.push(prices[i] * portfolio[key]);
       } else {
-        dataTable[dates[i]] = prices[i] * portfolio[key];
+        values[i] += prices[i] * portfolio[key];
       }
     }
   }
@@ -52,8 +57,9 @@ export async function updateChart(portfolio, time) {
       datasets: [
         {
           label: `Portfolio value`,
-          data: Object.values(dataTable),
-          borderWidth: 1,
+          data: values,
+          pointRadius: 4,
+          borderWidth: 5,
         },
       ],
     },
