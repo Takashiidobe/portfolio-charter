@@ -13,7 +13,6 @@ selectedTime.addEventListener("change", () => {
 });
 
 function addRow([ticker, amount]) {
-  console.log(ticker, amount);
   let div = document.createElement("div");
   let input1 = document.createElement("input");
   input1.type = "text";

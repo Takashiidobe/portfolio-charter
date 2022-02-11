@@ -21,7 +21,8 @@ export async function updateChart(portfolio, time) {
       continue;
     }
     let data = await fetchData(key, dateRanges[time]);
-    let timestamps = data.chart.result[0].timestamp.sort();
+    let timestamps = data.chart.result[0].timestamp;
+    timestamps.sort((a, b) => parseInt(a) > parseInt(b));
     dates = timestamps.map((x) => {
       if (dateRanges[time] == "1d") {
         return new Date(x * 1000).toLocaleTimeString();
